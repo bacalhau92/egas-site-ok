@@ -82,7 +82,101 @@ Error generating stack: `+l.message+`
 <script>
 document.addEventListener('DOMContentLoaded', function() {
   setTimeout(function() {
-    // Remover segundo div com classe fade-stagger na seção contacto
+    // 1. Mudar "Estudos de caso" para "Portfólio de Intervenções"
+    var projSection = document.querySelector('section#projetos');
+    if(projSection) {
+      var titleH2 = projSection.querySelector('div.sem-projects-wrap > h2.sem-projects-title');
+      if(titleH2 && titleH2.textContent === 'Estudos de caso') {
+        titleH2.textContent = 'Portfólio de Intervenções';
+      }
+    }
+    
+    // 2. Remover quarto div.mt-12.border-y na seção resultados
+    var resultSection = document.querySelector('section#resultados');
+    if(resultSection) {
+      var containers = resultSection.querySelectorAll('div.max-w-\\[1200px\\].mx-auto');
+      if(containers.length >= 3) {
+        var target = containers[2];
+        var divs = target.querySelectorAll(':scope > div.mt-12.border-y');
+        if(divs.length >= 4) {
+          divs[3].remove();
+        }
+      }
+    }
+    
+    // 3. Reduzir line-height de "02" para 0em
+    if(resultSection) {
+      var containers = resultSection.querySelectorAll('div.max-w-\\[1200px\\].mx-auto');
+      if(containers.length >= 3) {
+        var target = containers[2];
+        var relDivs = target.querySelectorAll(':scope > div.relative.fade-stagger');
+        if(relDivs.length > 0) {
+          var num02 = relDivs[0].querySelector('div.absolute.-top-8');
+          if(num02 && num02.textContent === '02') {
+            num02.style.lineHeight = '0';
+          }
+        }
+      }
+    }
+    
+    // 4. Reduzir line-height de "01" para 0em na seção sobre
+    var aboutSection = document.querySelector('section#sobre');
+    if(aboutSection) {
+      var containers = aboutSection.querySelectorAll('div.max-w-\\[1200px\\].mx-auto');
+      if(containers.length >= 3) {
+        var target = containers[2];
+        var relDivs = target.querySelectorAll(':scope > div.relative.fade-stagger');
+        if(relDivs.length > 0) {
+          var num01 = relDivs[0].querySelector('div.absolute.-top-8');
+          if(num01 && num01.textContent === '01') {
+            num01.style.lineHeight = '0';
+          }
+        }
+      }
+    }
+    
+    // 5. Deletar o div com flex items-center gap-0 border-y na seção início
+    var initSection = document.querySelector('section#inicio');
+    if(initSection) {
+      var relDiv = initSection.querySelector('div.relative.max-w-\\[1200px\\]');
+      if(relDiv) {
+        var gridDiv = relDiv.querySelector('div.grid.md\\:grid-cols-2');
+        if(gridDiv) {
+          var fontDiv = gridDiv.querySelector('div.font-sans.fade-stagger');
+          if(fontDiv) {
+            var flexDiv = fontDiv.querySelector('div.mt-8.flex.items-center.gap-0.border-y');
+            if(flexDiv) {
+              flexDiv.remove();
+            }
+          }
+        }
+      }
+    }
+    
+    // 6 & 7. Atualizar textos na seção início
+    if(initSection) {
+      var relDiv = initSection.querySelector('div.relative.max-w-\\[1200px\\]');
+      if(relDiv) {
+        var gridDiv = relDiv.querySelector('div.grid.md\\:grid-cols-2');
+        if(gridDiv) {
+          var fontDiv = gridDiv.querySelector('div.font-sans.fade-stagger');
+          if(fontDiv) {
+            // Atualizar eyebrow
+            var eyebrow = fontDiv.querySelector('div.text-\\[11px\\].tracking-\\[0\\.15em\\]');
+            if(eyebrow && eyebrow.textContent.indexOf('Luanda, Angola') !== -1) {
+              eyebrow.textContent = 'Consultoria de Alta Direção';
+            }
+            // Atualizar descrição principal
+            var desc = fontDiv.querySelector('div.mt-6.text-\\[18px\\]');
+            if(desc && desc.textContent.indexOf('Consultor do Gabinete') !== -1) {
+              desc.textContent = 'Excelência e Rigor em Procedimentos Administrativos e Secretariado para a Alta Direcção';
+            }
+          }
+        }
+      }
+    }
+    
+    // 8. Remover segundo fade-stagger na seção contacto
     var contactSection = document.querySelector('section#contacto');
     if(contactSection) {
       var fadeStaggerDivs = contactSection.querySelectorAll('.fade-stagger');
@@ -91,35 +185,62 @@ document.addEventListener('DOMContentLoaded', function() {
       }
     }
     
-    // Reduzir padding-bottom de section#contacto para 47px
+    // 9. Mover div mt-10 rounded-[12px] antes do primeiro fade-stagger
     if(contactSection) {
-      contactSection.style.paddingBottom = '47px';
-    }
-    
-    // Remover coluna "Navegação" do rodapé
-    var footerDivs = document.querySelectorAll('footer .grid.md\\:grid-cols-4 > div');
-    if(footerDivs.length > 1) {
-      var navLabel = Array.from(footerDivs).find(function(div) {
-        var label = div.querySelector('.text-\\[11px\\].tracking-\\[0\\.12em\\]');
-        return label && label.textContent.indexOf('Navegação') !== -1;
-      });
-      if(navLabel) {
-        navLabel.remove();
+      var container = contactSection.querySelector('div.max-w-\\[1200px\\].mx-auto');
+      if(container) {
+        var gridDiv = container.querySelector('div.grid.md\\:grid-cols-\\[1\\.1fr_0\\.9fr\\]');
+        if(gridDiv) {
+          var firstFadeStagger = gridDiv.querySelector(':scope > div.fade-stagger.fade-in-visible');
+          if(firstFadeStagger) {
+            var cardToMove = firstFadeStagger.querySelector('div.mt-10.rounded-\\[12px\\]');
+            if(cardToMove && !gridDiv.querySelector(':scope > div.mt-10.rounded-\\[12px\\]')) {
+              var clone = cardToMove.cloneNode(true);
+              gridDiv.insertBefore(clone, firstFadeStagger);
+              cardToMove.remove();
+            }
+          }
+        }
       }
     }
     
-    // Remover terceira coluna do rodapé (antiga)
-    var gridContainer = document.querySelector('footer .grid.md\\:grid-cols-4');
-    if(gridContainer) {
-      var allDivs = gridContainer.querySelectorAll(':scope > div');
-      if(allDivs.length > 2) {
-        // Remover o terceiro elemento se tiver espaço-y-2 (coluna antiga)
-        for(var i = allDivs.length - 1; i >= 0; i--) {
-          if(allDivs[i].querySelector('.space-y-2')) {
-            if(!allDivs[i].querySelector('.text-\\[11px\\].tracking-\\[0\\.12em\\]')) {
-              allDivs[i].remove();
-            }
-          }
+    // 10. Remover span com "Certificado ENAPP"
+    if(contactSection) {
+      var spans = contactSection.querySelectorAll('span.text-\\[10px\\].px-3');
+      spans.forEach(function(span) {
+        if(span.textContent.indexOf('Certificado ENAPP') !== -1) {
+          span.remove();
+        }
+      });
+    }
+    
+    // 11-13. Reorganizar footer
+    var footer = document.querySelector('footer');
+    if(footer) {
+      var gridContainer = footer.querySelector('div.grid.md\\:grid-cols-4');
+      if(gridContainer) {
+        var divs = Array.from(gridContainer.querySelectorAll(':scope > div'));
+        
+        // Encontrar coluna de navegação para remover
+        var navCol = divs.find(function(div) {
+          var label = div.querySelector('.text-\\[11px\\].tracking-\\[0\\.12em\\]');
+          return label && label.textContent.indexOf('Navegação') !== -1;
+        });
+        if(navCol) {
+          // Remover label de navegação
+          var label = navCol.querySelector('.text-\\[11px\\].tracking-\\[0\\.12em\\]');
+          if(label) label.remove();
+          var links = navCol.querySelector('div.space-y-2\\.5');
+          if(links) links.remove();
+        }
+        
+        // Reordenar: mover coluna 3 para antes de coluna 2
+        divs = Array.from(gridContainer.querySelectorAll(':scope > div'));
+        if(divs.length >= 3) {
+          var col2 = divs[1];
+          var col3 = divs[2];
+          gridContainer.removeChild(col3);
+          gridContainer.insertBefore(col3, col2);
         }
       }
     }

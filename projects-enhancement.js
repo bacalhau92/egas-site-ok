@@ -29,7 +29,7 @@
   function render(section) {
     section.className = 'sem-projects-section'; section.replaceChildren();
     const wrap = create('div', 'sem-projects-wrap');
-    const eyebrow = create('div', 'sem-projects-eyebrow', '04 / PROJECTOS'); wrap.append(eyebrow, create('h2', 'sem-projects-title', 'Estudos de caso'));
+    const eyebrow = create('div', 'sem-projects-eyebrow', '04 / PROJECTOS'); wrap.append(eyebrow, create('h2', 'sem-projects-title', 'Portfólio de Intervenções'));
     const intro = create('p', 'sem-projects-intro', 'Intervenções desenhadas para transformar competência em impacto institucional mensurável.'); wrap.append(intro);
     const controls = create('div', 'sem-project-controls'); const tabs = create('div', 'sem-project-tabs'); tabs.setAttribute('role', 'tablist'); categories.forEach((category) => { const button = create('button', `sem-project-tab${activeCategory === category ? ' is-active' : ''}`, category); button.type = 'button'; button.setAttribute('role', 'tab'); button.setAttribute('aria-selected', String(activeCategory === category)); button.addEventListener('click', () => { activeCategory = category; render(section); }); tabs.append(button); }); const search = create('input', 'sem-project-search'); search.type = 'search'; search.placeholder = 'Pesquisar projectos...'; search.setAttribute('aria-label', 'Pesquisar por título, cliente ou descrição'); search.value = query; search.addEventListener('input', (event) => { query = event.target.value; renderGrid(); }); controls.append(tabs, search); wrap.append(controls);
     const grid = create('div', 'sem-project-grid'); wrap.append(grid); section.append(wrap);

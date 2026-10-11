@@ -5,6 +5,7 @@
   "description": "Portfolio Santos Egas Moniz - V13 Premium com Supabase",
   "scripts": {
     "dev": "npx serve .",
-    "build": "echo 'Site estatico - sem build necessario'"
+    "check": "node -e \"const fs=require('fs'); for (const file of ['index.html','site-full.html','vercel.json']) { if (!fs.existsSync(file)) throw new Error('Ficheiro obrigatório em falta: '+file); } JSON.parse(fs.readFileSync('vercel.json','utf8')); console.log('Verificação estática concluída')\"",
+    "build": "npm run check"
   }
 }

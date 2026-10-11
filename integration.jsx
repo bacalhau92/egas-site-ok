@@ -47,18 +47,20 @@ export async function submitLead({ nome, email, instituicao, mensagem, origem = 
     origem: origem // 'form', 'whatsapp', 'livro'
   }
 
-  const { data, error } = await supabase
-    .from('leads')
-    .insert([cleanData])
-    .select()
-    .single()
-
-  if (error) throw error
-
-  // Opcional: dispara email via Edge Function + Resend
-  // await supabase.functions.invoke('send-lead-email', { body: cleanData })
-
-  return data
+  const response = await fetch('/api/contact', {
+    method: 'POST',
+    headers: { 'content-type': 'application/json' },
+    body: JSON.stringify({
+      fullName: cleanData.nome,
+      email: cleanData.email,
+      institution: cleanData.instituicao,
+      message: cleanData.mensagem,
+      origem: cleanData.origem,
+    }),
+  })
+  const result = await response.json().catch(() => ({}))
+  if (!response.ok) throw new Error(result.error || 'Não foi possível enviar o pedido.')
+  return result
 }
 
 // 4. BUSCAR DEPOIMENTOS PARA CARROSSEL (320x180px)

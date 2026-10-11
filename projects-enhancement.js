@@ -41,6 +41,19 @@
 })();
 
 (() => {
+  const enhanceAboutImage = () => {
+    const about = document.querySelector('#sobre');
+    if (!about || about.dataset.semAboutImageEnhanced) return false;
+    about.dataset.semAboutImageEnhanced = 'true';
+    const style = document.createElement('style');
+    style.textContent = `@media (min-width: 768px){#sobre > div.max-w-\\[1200px\\].mx-auto > div.mt-12.md\\:mt-16{align-items:start}#sobre > div.max-w-\\[1200px\\].mx-auto > div.mt-12.md\\:mt-16 > div.fade-stagger:nth-child(2){transform:translateY(-56px)}}@media (max-width: 767px){#sobre > div.max-w-\\[1200px\\].mx-auto > div.mt-12.md\\:mt-16 > div.fade-stagger:nth-child(2){transform:none}}`;
+    document.head.append(style);
+    return true;
+  };
+  if (!enhanceAboutImage()) { const observer = new MutationObserver(() => { if (enhanceAboutImage()) observer.disconnect(); }); observer.observe(document.body, { childList: true, subtree: true }); }
+})();
+
+(() => {
   const enhanceGallery = () => {
     const gallery = document.querySelector('#galeria');
     if (!gallery || gallery.dataset.semGalleryEnhanced) return false;

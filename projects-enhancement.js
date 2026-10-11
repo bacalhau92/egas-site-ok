@@ -41,43 +41,6 @@
 })();
 
 (() => {
-  const refineAboutUI = () => {
-    const section = document.querySelector('#sobre');
-    if (!section || section.dataset.semAboutUiRefined) return false;
-    section.dataset.semAboutUiRefined = 'true';
-    const style = document.createElement('style');
-    style.textContent = `
-      #sobre{background:linear-gradient(135deg,#f8fafc 0%,#f8fafc 68%,#f1f5f9 100%);}
-      #sobre .sem-about-kicker{display:flex;align-items:center;gap:12px;margin-top:18px;color:#718096;font:500 11px/1.4 Arial,sans-serif;letter-spacing:.12em;text-transform:uppercase}
-      #sobre .sem-about-kicker::before{content:"";width:34px;height:1px;background:#c2a878}
-      #sobre .sem-about-stats{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:10px;margin-top:32px;max-width:560px}
-      #sobre .sem-about-stat{padding:15px 16px;border-top:1px solid #c2a878;background:rgba(255,255,255,.62)}
-      #sobre .sem-about-stat strong{display:block;color:#0f243e;font:600 22px/1 Georgia,serif}
-      #sobre .sem-about-stat span{display:block;margin-top:7px;color:#718096;font:500 10px/1.35 Arial,sans-serif;letter-spacing:.08em;text-transform:uppercase}
-      #sobre .sem-about-photo{position:relative}
-      #sobre .sem-about-photo::before{content:"";position:absolute;inset:18px -14px -14px 14px;border:1px solid #c2a878;z-index:-1}
-      #sobre .sem-about-photo img{filter:saturate(.82) contrast(1.04)}
-      @media(max-width:767px){#sobre .sem-about-stats{grid-template-columns:1fr 1fr}#sobre .sem-about-stat:last-child{grid-column:span 2}#sobre .sem-about-photo::before{inset:12px -8px -8px 8px}}
-    `;
-    document.head.append(style);
-    const title = section.querySelector('h2');
-    const titleWrap = title?.parentElement;
-    if (titleWrap && !titleWrap.querySelector('.sem-about-kicker')) titleWrap.append(createAboutNode('div','sem-about-kicker','Experiência que se transforma em impacto institucional'));
-    const copy = section.querySelector('.font-sans.space-y-6.text-\\[16px\\]');
-    if (copy && !copy.querySelector('.sem-about-stats')) {
-      const stats = createAboutNode('div','sem-about-stats');
-      [['8+','anos de impacto'],['3','frentes de atuação'],['Nacional','alcance']].forEach(([value,label]) => { const item=createAboutNode('div','sem-about-stat'); item.append(createAboutNode('strong','',value),createAboutNode('span','',label)); stats.append(item); });
-      copy.append(stats);
-    }
-    const photoColumn = section.querySelector('.mt-12.md\\:mt-16 > .fade-stagger:nth-child(2)');
-    if (photoColumn) photoColumn.classList.add('sem-about-photo');
-    return true;
-  };
-  const createAboutNode = (tag, className, text) => { const node=document.createElement(tag); if(className) node.className=className; if(text) node.textContent=text; return node; };
-  if (!refineAboutUI()) { const observer=new MutationObserver(()=>{ if(refineAboutUI()) observer.disconnect(); }); observer.observe(document.body,{childList:true,subtree:true}); }
-})();
-
-(() => {
   const refineFooterStructure = () => {
     const footer = document.querySelector('footer');
     if (!footer || footer.dataset.semFooterRefined) return false;

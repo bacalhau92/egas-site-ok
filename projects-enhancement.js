@@ -39,3 +39,56 @@
 
   const boot = () => { const section = document.querySelector('#projetos'); if (section && !section.dataset.semEnhanced) { section.dataset.semEnhanced = 'true'; render(section); return true; } return false; }; if (!boot()) { const observer = new MutationObserver(() => { if (boot()) observer.disconnect(); }); observer.observe(document.body, { childList: true, subtree: true }); }
 })();
+
+(() => {
+  const enhanceGallery = () => {
+    const gallery = document.querySelector('#galeria');
+    if (!gallery || gallery.dataset.semGalleryEnhanced) return false;
+  gallery.dataset.semGalleryEnhanced = 'true';
+
+  const sourceImages = [...gallery.querySelectorAll('img')].map((image, index) => ({
+    src: image.currentSrc || image.src,
+    alt: image.alt || `Registo de formação ${index + 1}`,
+  }));
+  if (!sourceImages.length) return;
+
+  const style = document.createElement('style');
+  style.textContent = `.sem-gallery-grid{display:grid;grid-template-columns:1fr;gap:16px}.sem-gallery-tile{position:relative;display:block;aspect-ratio:4/3;overflow:hidden;border-radius:12px;border:1px solid #e2e8f0;background:#0f243e;cursor:zoom-in;padding:0;text-align:left}.sem-gallery-tile img{width:100%;height:100%;display:block;object-fit:cover;transition:transform .45s ease}.sem-gallery-tile:hover img,.sem-gallery-tile:focus-visible img{transform:scale(1.05)}.sem-gallery-scrim{position:absolute;inset:35% 0 0;background:linear-gradient(transparent,#0f243ecc);pointer-events:none}.sem-gallery-expand{position:absolute;right:16px;top:16px;width:36px;height:36px;border:1px solid #ffffff66;border-radius:999px;background:#0f243ecc;color:#fff;display:grid;place-items:center;font:20px/1 Arial;pointer-events:none}.sem-gallery-lightbox{position:fixed;inset:0;z-index:1100;background:#07172be8;display:grid;place-items:center;padding:24px}.sem-gallery-dialog{position:relative;max-width:1100px;width:100%;display:flex;flex-direction:column;align-items:center}.sem-gallery-dialog img{display:block;width:auto;max-width:100%;max-height:72vh;object-fit:contain;border-radius:10px;box-shadow:0 24px 80px #0008}.sem-gallery-close,.sem-gallery-nav{position:absolute;border:1px solid #ffffff55;background:#0f243ecc;color:#fff;cursor:pointer;border-radius:999px}.sem-gallery-close{top:-48px;right:0;padding:9px 14px;font:12px Arial}.sem-gallery-nav{top:50%;transform:translateY(-50%);width:44px;height:44px;font:28px/1 Arial}.sem-gallery-prev{left:-56px}.sem-gallery-next{right:-56px}.sem-gallery-caption{color:#fff;font:13px Arial;margin-top:14px;text-align:center}@media(min-width:640px){.sem-gallery-grid{grid-template-columns:repeat(2,1fr)}}@media(min-width:1200px){.sem-gallery-grid{grid-template-columns:repeat(3,1fr)}}@media(max-width:700px){.sem-gallery-lightbox{padding:16px}.sem-gallery-close{top:-48px;right:0}.sem-gallery-prev{left:4px}.sem-gallery-next{right:4px}.sem-gallery-nav{background:#0f243ebb}.sem-gallery-dialog img{max-width:calc(100% - 24px)}}`;
+  document.head.append(style);
+
+  const create = (tag, className, text) => { const node = document.createElement(tag); node.className = className; if (text) node.textContent = text; return node; };
+  const content = gallery.querySelector('.max-w-\\[1200px\\]');
+  if (!content) return;
+  const originalTitle = content.querySelector('h2')?.textContent || 'Galeria';
+  content.querySelectorAll('.mt-10').forEach((node) => node.remove());
+  const grid = create('div', 'sem-gallery-grid');
+  let activeIndex = 0;
+
+  function closeLightbox() {
+    document.querySelector('.sem-gallery-lightbox')?.remove();
+    document.removeEventListener('keydown', onKeydown);
+  }
+  function openLightbox(index) {
+    activeIndex = (index + sourceImages.length) % sourceImages.length;
+    const modal = create('div', 'sem-gallery-lightbox'); modal.setAttribute('role', 'dialog'); modal.setAttribute('aria-modal', 'true'); modal.setAttribute('aria-label', 'Galeria de imagens');
+    const dialog = create('div', 'sem-gallery-dialog');
+    const close = create('button', 'sem-gallery-close', 'Fechar'); close.type = 'button'; close.addEventListener('click', closeLightbox);
+    const prev = create('button', 'sem-gallery-nav sem-gallery-prev', '‹'); prev.type = 'button'; prev.setAttribute('aria-label', 'Imagem anterior');
+    const next = create('button', 'sem-gallery-nav sem-gallery-next', '›'); next.type = 'button'; next.setAttribute('aria-label', 'Próxima imagem');
+    const image = document.createElement('img'); const caption = create('p', 'sem-gallery-caption');
+    const update = () => { const item = sourceImages[activeIndex]; image.src = item.src; image.alt = item.alt; caption.textContent = `${activeIndex + 1} / ${sourceImages.length} — ${item.alt}`; };
+    prev.addEventListener('click', () => { activeIndex = (activeIndex - 1 + sourceImages.length) % sourceImages.length; update(); });
+    next.addEventListener('click', () => { activeIndex = (activeIndex + 1) % sourceImages.length; update(); });
+    dialog.append(close, prev, image, next, caption); modal.append(dialog); document.body.append(modal); update(); close.focus(); modal.addEventListener('click', (event) => { if (event.target === modal) closeLightbox(); }); document.addEventListener('keydown', onKeydown);
+    function onKeydown(event) { if (event.key === 'Escape') closeLightbox(); if (event.key === 'ArrowLeft') prev.click(); if (event.key === 'ArrowRight') next.click(); }
+  }
+  sourceImages.forEach((item, index) => { const tile = create('button', 'sem-gallery-tile'); tile.type = 'button'; tile.setAttribute('aria-label', `Ampliar imagem ${index + 1}: ${item.alt}`); const image = document.createElement('img'); image.src = item.src; image.alt = item.alt; image.loading = index === 0 ? 'eager' : 'lazy'; tile.append(image, create('span', 'sem-gallery-scrim'), create('span', 'sem-gallery-expand', '↗')); tile.addEventListener('click', () => openLightbox(index)); grid.append(tile); });
+  const galleryHeading = content.querySelector('h2'); if (galleryHeading) galleryHeading.textContent = originalTitle;
+  content.append(grid);
+  return true;
+  };
+  if (!enhanceGallery()) { const observer = new MutationObserver(() => { if (enhanceGallery()) observer.disconnect(); }); observer.observe(document.body, { childList: true, subtree: true }); }
+})();
+
+
+

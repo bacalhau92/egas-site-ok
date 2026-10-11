@@ -77,5 +77,21 @@ Error generating stack: `+l.message+`
   if(document.readyState==='loading') document.addEventListener('DOMContentLoaded',function(){var attempts=0;var timer=setInterval(function(){addCarousel();if(document.querySelector('.sem-institutions-carousel')||++attempts>40)clearInterval(timer)},100)}); else {var attempts=0;var timer=setInterval(function(){addCarousel();if(document.querySelector('.sem-institutions-carousel')||++attempts>40)clearInterval(timer)},100);}
 })();
 </script>
+<script>
+(function(){
+  function removeElement(){
+    var section=document.querySelector('section#resultados');
+    if(!section) return;
+    var containers=section.querySelectorAll('div.max-w-\\[1200px\\].mx-auto');
+    if(containers.length<3) return;
+    var target=containers[2];
+    var divs=target.querySelectorAll(':scope > div.mt-12.border-y');
+    if(divs.length>=4){
+      divs[3].remove();
+    }
+  }
+  if(document.readyState==='loading') document.addEventListener('DOMContentLoaded',removeElement); else removeElement();
+})();
+</script>
 </body>
 </html>

@@ -64,9 +64,9 @@
   const grid = create('div', 'sem-gallery-grid');
   let activeIndex = 0;
 
-  function closeLightbox() {
+  function closeLightbox(keyboardHandler) {
     document.querySelector('.sem-gallery-lightbox')?.remove();
-    document.removeEventListener('keydown', onKeydown);
+    if (keyboardHandler) document.removeEventListener('keydown', keyboardHandler);
   }
   function openLightbox(index) {
     activeIndex = (index + sourceImages.length) % sourceImages.length;
@@ -79,8 +79,8 @@
     const update = () => { const item = sourceImages[activeIndex]; image.src = item.src; image.alt = item.alt; caption.textContent = `${activeIndex + 1} / ${sourceImages.length} — ${item.alt}`; };
     prev.addEventListener('click', () => { activeIndex = (activeIndex - 1 + sourceImages.length) % sourceImages.length; update(); });
     next.addEventListener('click', () => { activeIndex = (activeIndex + 1) % sourceImages.length; update(); });
-    dialog.append(close, prev, image, next, caption); modal.append(dialog); document.body.append(modal); update(); close.focus(); modal.addEventListener('click', (event) => { if (event.target === modal) closeLightbox(); }); document.addEventListener('keydown', onKeydown);
-    function onKeydown(event) { if (event.key === 'Escape') closeLightbox(); if (event.key === 'ArrowLeft') prev.click(); if (event.key === 'ArrowRight') next.click(); }
+    function onKeydown(event) { if (event.key === 'Escape') closeLightbox(onKeydown); if (event.key === 'ArrowLeft') prev.click(); if (event.key === 'ArrowRight') next.click(); }
+    dialog.append(close, prev, image, next, caption); modal.append(dialog); document.body.append(modal); update(); close.focus(); modal.addEventListener('click', (event) => { if (event.target === modal) closeLightbox(onKeydown); }); document.addEventListener('keydown', onKeydown);
   }
   sourceImages.forEach((item, index) => { const tile = create('button', 'sem-gallery-tile'); tile.type = 'button'; tile.setAttribute('aria-label', `Ampliar imagem ${index + 1}: ${item.alt}`); const image = document.createElement('img'); image.src = item.src; image.alt = item.alt; image.loading = index === 0 ? 'eager' : 'lazy'; tile.append(image, create('span', 'sem-gallery-scrim'), create('span', 'sem-gallery-expand', '↗')); tile.addEventListener('click', () => openLightbox(index)); grid.append(tile); });
   const galleryHeading = content.querySelector('h2'); if (galleryHeading) galleryHeading.textContent = originalTitle;

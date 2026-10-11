@@ -41,6 +41,48 @@
 })();
 
 (() => {
+  const refineExecutiveSections = () => {
+    const hero = document.querySelector('#inicio');
+    const about = document.querySelector('#sobre');
+    const results = document.querySelector('#resultados');
+    const opinions = document.querySelector('#obras');
+    if (!hero || !about || !results || !opinions) return false;
+    if (document.querySelector('#sem-executive-sections-style')) return true;
+    [hero, about, results, opinions].forEach((section) => section.classList.add('sem-executive-section'));
+    hero.classList.add('sem-executive-hero');
+    about.classList.add('sem-executive-about');
+    results.classList.add('sem-executive-results');
+    opinions.classList.add('sem-executive-opinions');
+    const style = document.createElement('style');
+    style.id = 'sem-executive-sections-style';
+    style.textContent = `
+      .sem-executive-section{position:relative;overflow:hidden}
+      .sem-executive-hero{background:radial-gradient(circle at 76% 42%,rgba(194,168,120,.11),transparent 28%),linear-gradient(135deg,#f8fafc 0%,#fff 58%,#f5f1e9 100%)!important}
+      .sem-executive-hero h1{letter-spacing:-.055em!important;font-size:clamp(54px,7vw,104px)!important;line-height:.88!important;text-wrap:balance}
+      .sem-executive-hero .text-\\[11px\\]{color:#9b7a3e!important;letter-spacing:.2em!important}
+      .sem-executive-hero .mt-6.text-\\[18px\\]{max-width:560px!important;font-size:clamp(18px,2vw,23px)!important;line-height:1.45!important;color:#344054!important}
+      .sem-executive-hero .mt-8{margin-top:42px!important}
+      .sem-executive-hero::after{content:'SANTOS EGAS MONIZ  /  EXECUTIVE ADVISORY';position:absolute;right:3%;bottom:28px;color:#b0b7c1;font:600 10px/1 Arial,sans-serif;letter-spacing:.18em;writing-mode:vertical-rl;opacity:.7}
+      .sem-executive-about{background:linear-gradient(135deg,#fff 0%,#f7f9fb 100%)!important}
+      .sem-executive-about h2,.sem-executive-results h2,.sem-executive-opinions h2{letter-spacing:-.045em!important;font-size:clamp(42px,5vw,72px)!important;line-height:.94!important}
+      .sem-executive-about .mt-12.md\\:mt-16{gap:clamp(42px,8vw,120px)!important;align-items:center!important}
+      .sem-executive-about img{border-radius:2px!important;box-shadow:18px 18px 0 rgba(194,168,120,.18)!important}
+      .sem-executive-results{background:#0b1d32!important;color:#fff!important}
+      .sem-executive-results h2{color:#fff!important}
+      .sem-executive-results .mt-12.rounded-\\[12px\\]{border:1px solid rgba(194,168,120,.35)!important;background:linear-gradient(135deg,#102844,#0d2139)!important;box-shadow:0 24px 70px rgba(0,0,0,.18)!important}
+      .sem-executive-results .text-\\[56px\\]{color:#d7bf8c!important;font-size:clamp(42px,5vw,68px)!important}
+      .sem-executive-opinions{background:#f4f6f8!important}
+      .sem-executive-opinions .mt-12{border-color:#d8c39b!important}
+      .sem-executive-opinions img{filter:grayscale(1) contrast(1.05)!important}
+      @media(max-width:767px){.sem-executive-hero h1{font-size:58px!important}.sem-executive-hero::after{display:none}.sem-executive-about .mt-12.md\\:mt-16{gap:36px!important}.sem-executive-results .mt-12.rounded-\\[12px\\]{border-radius:2px!important}}
+    `;
+    document.head.append(style);
+    return true;
+  };
+  if (!refineExecutiveSections()) { const observer = new MutationObserver(() => { if (refineExecutiveSections()) observer.disconnect(); }); observer.observe(document.body, { childList:true, subtree:true }); }
+})();
+
+(() => {
   const refineFooterStructure = () => {
     const footer = document.querySelector('footer');
     if (!footer || footer.dataset.semFooterRefined) return false;

@@ -42,27 +42,19 @@
 
 (() => {
   const refineFooterStructure = () => {
-    const footer = document.querySelector('footer.bg-\\[\\#0A1930\\]');
+    const footer = document.querySelector('footer');
     if (!footer || footer.dataset.semFooterRefined) return false;
     footer.dataset.semFooterRefined = 'true';
-    
-    const gridContainer = footer.querySelector('div.grid.md\\:grid-cols-4');
+    const gridContainer = Array.from(footer.querySelectorAll('div')).find((node) => node.classList.contains('grid') && node.classList.contains('md:grid-cols-4'));
     if (!gridContainer) return true;
-    
-    const divs = Array.from(gridContainer.children);
-    if (divs.length < 3) return true;
-    
-    // Remove second column entirely
-    if (divs[1]) divs[1].remove();
-    
-    // Apply text-align right to contact column
-    const contactCol = gridContainer.querySelector('div.space-y-2.text-\\[13px\\]:nth-of-type(2)');
-    if (contactCol) {
-      contactCol.style.textAlign = 'right';
-      const label = contactCol.querySelector('div.text-\\[11px\\].tracking-\\[0\\.12em\\]');
-      if (label) label.style.textAlign = 'right';
+    const columns = Array.from(gridContainer.children);
+    if (columns[1]) columns[1].remove();
+    const contactColumn = Array.from(gridContainer.children).find((column) => column.textContent.includes('contacto@sem.ao'));
+    if (contactColumn) {
+      contactColumn.style.textAlign = 'right';
+      contactColumn.querySelectorAll('div, a').forEach((node) => { node.style.textAlign = 'right'; });
     }
-    
+    gridContainer.style.textAlign = 'left';
     return true;
   };
   
@@ -74,17 +66,13 @@
     const grid = contactSection.querySelector('div.grid.md\\:grid-cols-\\[1\\.1fr_0\\.9fr\\]');
     if (!grid) return true;
     
-    const divs = Array.from(grid.children);
-    // Remove second stagger (image)
-    const secondStagger = divs.find((d, i) => i > 0 && d.classList.contains('fade-stagger'));
+    const columns = Array.from(grid.children);
+    const secondStagger = columns.find((column, index) => index > 0 && column.classList.contains('fade-stagger'));
     if (secondStagger) secondStagger.remove();
-    
-    // Move the box before the text content
-    const textContent = grid.querySelector('div.fade-stagger.fade-in-visible');
+    const textContent = Array.from(grid.children).find((column) => column.textContent.includes('Vamos elevar')) || grid.querySelector('.fade-stagger');
     const box = textContent?.querySelector('div.mt-10.rounded-\\[12px\\]');
-    if (box && textContent) {
-      textContent.insertBefore(box, textContent.firstChild);
-    }
+    if (box && textContent) grid.insertBefore(box, textContent);
+    
     
     return true;
   };
@@ -132,11 +120,20 @@
     });
   };
   
-  if (!refineFooterStructure()) return;
-  refineContactSection();
-  refineSectionNumbers();
-  refineInitioSection();
-  refineResultsSection();
+  const applyRefinements = () => {
+    const ready = document.querySelector('footer') && document.querySelector('#inicio') && document.querySelector('#resultados');
+    if (!ready) return false;
+    refineFooterStructure();
+    refineContactSection();
+    refineSectionNumbers();
+    refineInitioSection();
+    refineResultsSection();
+    return true;
+  };
+  if (!applyRefinements()) {
+    const observer = new MutationObserver(() => { if (applyRefinements()) observer.disconnect(); });
+    observer.observe(document.body, { childList: true, subtree: true });
+  }
 })();
 
 (() => {

@@ -41,16 +41,102 @@
 })();
 
 (() => {
-  const enhanceAboutImage = () => {
-    const about = document.querySelector('#sobre');
-    if (!about || about.dataset.semAboutImageEnhanced) return false;
-    about.dataset.semAboutImageEnhanced = 'true';
-    const style = document.createElement('style');
-    style.textContent = `@media (min-width: 768px){#sobre > div.max-w-\\[1200px\\].mx-auto > div.mt-12.md\\:mt-16{align-items:start}#sobre > div.max-w-\\[1200px\\].mx-auto > div.mt-12.md\\:mt-16 > div.fade-stagger:nth-child(2){transform:translateY(-56px)}}@media (max-width: 767px){#sobre > div.max-w-\\[1200px\\].mx-auto > div.mt-12.md\\:mt-16 > div.fade-stagger:nth-child(2){transform:none}}`;
-    document.head.append(style);
+  const refineFooterStructure = () => {
+    const footer = document.querySelector('footer.bg-\\[\\#0A1930\\]');
+    if (!footer || footer.dataset.semFooterRefined) return false;
+    footer.dataset.semFooterRefined = 'true';
+    
+    const gridContainer = footer.querySelector('div.grid.md\\:grid-cols-4');
+    if (!gridContainer) return true;
+    
+    const divs = Array.from(gridContainer.children);
+    if (divs.length < 3) return true;
+    
+    // Remove second column entirely
+    if (divs[1]) divs[1].remove();
+    
+    // Apply text-align right to contact column
+    const contactCol = gridContainer.querySelector('div.space-y-2.text-\\[13px\\]:nth-of-type(2)');
+    if (contactCol) {
+      contactCol.style.textAlign = 'right';
+      const label = contactCol.querySelector('div.text-\\[11px\\].tracking-\\[0\\.12em\\]');
+      if (label) label.style.textAlign = 'right';
+    }
+    
     return true;
   };
-  if (!enhanceAboutImage()) { const observer = new MutationObserver(() => { if (enhanceAboutImage()) observer.disconnect(); }); observer.observe(document.body, { childList: true, subtree: true }); }
+  
+  const refineContactSection = () => {
+    const contactSection = document.querySelector('section#contacto');
+    if (!contactSection || contactSection.dataset.semContactRefined) return false;
+    contactSection.dataset.semContactRefined = 'true';
+    
+    const grid = contactSection.querySelector('div.grid.md\\:grid-cols-\\[1\\.1fr_0\\.9fr\\]');
+    if (!grid) return true;
+    
+    const divs = Array.from(grid.children);
+    // Remove second stagger (image)
+    const secondStagger = divs.find((d, i) => i > 0 && d.classList.contains('fade-stagger'));
+    if (secondStagger) secondStagger.remove();
+    
+    // Move the box before the text content
+    const textContent = grid.querySelector('div.fade-stagger.fade-in-visible');
+    const box = textContent?.querySelector('div.mt-10.rounded-\\[12px\\]');
+    if (box && textContent) {
+      textContent.insertBefore(box, textContent.firstChild);
+    }
+    
+    return true;
+  };
+  
+  const refineSectionNumbers = () => {
+    const sections = ['#galeria', '#obras', '#resultados', '#sobre'];
+    sections.forEach(selector => {
+      const section = document.querySelector(selector);
+      if (!section) return;
+      const numDiv = section.querySelector('div.absolute.-top-8 div');
+      if (numDiv) numDiv.style.lineHeight = '0em';
+    });
+  };
+  
+  const refineInitioSection = () => {
+    const inicio = document.querySelector('section#inicio');
+    if (!inicio) return;
+    
+    // Remove the flex items-center div
+    const flexDiv = inicio.querySelector('div.mt-8.flex.items-center');
+    if (flexDiv) flexDiv.remove();
+    
+    // Update text content
+    const eyebrow = inicio.querySelector('div.text-\\[11px\\].tracking-\\[0\\.15em\\]');
+    if (eyebrow) eyebrow.textContent = 'Consultoria de Alta Direção';
+    
+    const desc = inicio.querySelector('div.mt-6.text-\\[18px\\]');
+    if (desc) desc.textContent = 'Excelência Administrativa, Governança Estratégica & Capacitação Humana.';
+  };
+  
+  const refineResultsSection = () => {
+    const resultados = document.querySelector('section#resultados');
+    if (!resultados) return;
+    
+    // Remove 4th border-y div
+    const divs = Array.from(resultados.querySelectorAll('div.mt-12.border-y'));
+    if (divs.length > 0) divs[divs.length - 1].remove();
+    
+    // Apply text-align right to result labels
+    const labels = resultados.querySelectorAll('div.text-\\[11px\\].leading-\\[1\\.3\\].text-\\[#A0AEC0\\]');
+    labels.forEach(label => {
+      if (label.textContent.includes('Funcionários') || label.textContent.includes('Textos') || label.textContent.includes('Profissionais')) {
+        label.style.textAlign = 'right';
+      }
+    });
+  };
+  
+  if (!refineFooterStructure()) return;
+  refineContactSection();
+  refineSectionNumbers();
+  refineInitioSection();
+  refineResultsSection();
 })();
 
 (() => {

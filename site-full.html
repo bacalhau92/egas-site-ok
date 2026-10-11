@@ -244,6 +244,49 @@ document.addEventListener('DOMContentLoaded', function() {
         }
       }
     }
+    
+    // 14. Reorganizar contacto no footer
+    if(footer) {
+      var gridContainer = footer.querySelector('div.grid.md\\:grid-cols-4');
+      if(gridContainer) {
+        // Encontrar a coluna contacto (div:nth-of-type(3))
+        var allDivs = Array.from(gridContainer.querySelectorAll(':scope > div'));
+        
+        // Procurar a coluna com label "Contacto"
+        var contactCol = allDivs.find(function(div) {
+          var label = div.querySelector('.text-\\[11px\\].tracking-\\[0\\.12em\\]');
+          return label && label.textContent.indexOf('Contacto') !== -1;
+        });
+        
+        if(contactCol) {
+          // Encontrar os elementos dentro da coluna
+          var contactLabel = contactCol.querySelector('.text-\\[11px\\].tracking-\\[0\\.12em\\]');
+          var contactLinks = contactCol.querySelector('div.space-y-2.text-\\[13px\\]');
+          
+          if(contactLabel && contactLinks) {
+            // Aplicar text-align right ao bloco de contacto
+            contactLinks.style.textAlign = 'right';
+            
+            // Mover contactLinks para dentro do grid (depois do item anterior)
+            var currentIndex = allDivs.indexOf(contactCol);
+            if(currentIndex >= 0) {
+              gridContainer.removeChild(contactLinks);
+              var nextItem = allDivs[currentIndex - 1];
+              if(nextItem && nextItem.nextSibling) {
+                gridContainer.insertBefore(contactLinks, nextItem.nextSibling);
+              } else if(currentIndex > 0) {
+                gridContainer.appendChild(contactLinks);
+              }
+            }
+            
+            // Mover contactLabel para antes de contactLinks
+            if(contactLinks.parentNode) {
+              contactLinks.insertBefore(contactLabel, contactLinks.firstChild);
+            }
+          }
+        }
+      }
+    }
   }, 500);
 });
 </script>

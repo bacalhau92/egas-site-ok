@@ -99,6 +99,21 @@
     const box = textContent?.querySelector('div.mt-10.rounded-\\[12px\\]');
     if (box && textContent) grid.insertBefore(box, textContent);
     
+    // Remove "Certificado ENAPP" badge from contact form
+    const formBox = box || grid.querySelector('div.mt-10.rounded-\\[12px\\]');
+    if (formBox) {
+      const spaceDiv = formBox.querySelector('div.space-y-5');
+      if (spaceDiv) {
+        const flexGaps = Array.from(spaceDiv.querySelectorAll('div.flex.gap-2'));
+        if (flexGaps[3]) {
+          const badges = Array.from(flexGaps[3].querySelectorAll('span.text-\\[10px\\].px-3'));
+          if (badges[1] && badges[1].textContent.includes('Certificado')) {
+            badges[1].remove();
+          }
+        }
+      }
+    }
+    
     contactSection.classList.add('sem-contact-section');
     grid.classList.add('sem-contact-grid');
     if (box) box.classList.add('sem-contact-form');

@@ -261,6 +261,28 @@
       .sem-projects-section{padding-top:160px!important;padding-bottom:160px!important;background:var(--sem-white)!important}
       button,.sem-project-tab,.sem-project-search{border-radius:var(--sem-radius-sm)!important}
       @media(max-width:767px){.max-w-\\[1200px\\],.max-w-\\[1120px\\],.sem-projects-wrap{padding-left:20px!important;padding-right:20px!important}section#sobre,section#resultados{padding-top:96px!important;padding-bottom:96px!important}section#obras,section#galeria,section#projetos{padding-top:80px!important;padding-bottom:80px!important}section#sobre .max-w-\\[1200px\\],section#resultados .max-w-\\[1200px\\]{padding-left:20px!important;padding-right:20px!important}}
+      /* Reference layout: Sobre */
+      section#sobre{background:#f8fafc!important}
+      section#sobre .max-w-\\[1200px\\]{max-width:1280px!important;padding-left:8px!important;padding-right:8px!important}
+      section#sobre .mt-12.md\\:mt-16{display:grid!important;grid-template-columns:1fr 1.12fr!important;gap:88px!important;align-items:start!important}
+      section#sobre .mt-12.md\\:mt-16>div:first-child{position:relative!important}
+      section#sobre .mt-12.md\\:mt-16>div:first-child:before{content:"";display:block;height:1px;background:#d7bf8c;margin-bottom:20px}
+      section#sobre .mt-12.md\\:mt-16>div:first-child img{width:100%!important;aspect-ratio:1.45!important;object-fit:cover!important;border-radius:12px!important}
+      section#sobre .mt-12.md\\:mt-16>div:first-child:after{content:"ARSEG     UAN     ENAPP     PIC-ANGOLA     PRIME ACADEMY";position:absolute;left:18px;right:18px;bottom:18px;color:#0f243e;background:rgba(255,255,255,.9);padding:8px 10px;border-radius:999px;font:600 9px/1 Arial,sans-serif;letter-spacing:.08em;word-spacing:10px;text-align:center}
+      section#sobre .mt-12.md\\:mt-16>div:nth-child(2){padding-top:0!important}
+      section#sobre h2{max-width:620px!important;font-size:clamp(44px,5vw,68px)!important;line-height:.94!important;letter-spacing:-.045em!important;color:#0f243e!important}
+      section#sobre .font-sans.space-y-6.text-\\[16px\\]{max-width:630px!important;color:#35506f!important;font-size:16px!important;line-height:1.75!important}
+      section#sobre .font-sans.space-y-6.text-\\[16px\\]>div:last-child{margin-top:32px!important;border-left:1px solid #e2e8f0!important;padding-left:24px!important}
+      /* Reference layout: Resultados */
+      section#resultados{background:#0f243e!important;color:#fff!important;min-height:620px!important}
+      section#resultados .max-w-\\[1200px\\]{max-width:1280px!important;padding-left:8px!important;padding-right:8px!important}
+      section#resultados h2{font-size:clamp(46px,5vw,72px)!important;line-height:.95!important;letter-spacing:-.045em!important;color:#fff!important}
+      section#resultados .mt-12.rounded-\\[12px\\]{display:grid!important;grid-template-columns:repeat(4,1fr)!important;gap:48px!important;border:0!important;border-radius:0!important;background:transparent!important;box-shadow:none!important;padding:0!important}
+      section#resultados .mt-12.rounded-\\[12px\\]>div{border-top:1px solid rgba(194,168,120,.42)!important;padding-top:28px!important}
+      section#resultados .text-\\[56px\\]{font-size:clamp(48px,5vw,68px)!important;line-height:.9!important;color:#fff!important}
+      section#resultados .mt-12.rounded-\\[12px\\] .text-\\[11px\\]{color:#d7bf8c!important;letter-spacing:.14em!important}
+      section#resultados .mt-12.rounded-\\[12px\\] .text-\\[13px\\]{color:#7890ad!important}
+      @media(max-width:767px){section#sobre .mt-12.md\\:mt-16{grid-template-columns:1fr!important;gap:40px!important}section#sobre .mt-12.md\\:mt-16>div:first-child img{aspect-ratio:1.2!important}section#resultados .mt-12.rounded-\\[12px\\]{grid-template-columns:repeat(2,1fr)!important;gap:28px!important}}
     `;
     document.head.append(style);
     return true;

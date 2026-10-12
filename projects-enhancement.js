@@ -263,11 +263,15 @@
       .sem-gallery-tile img{transition:transform .3s ease!important}
       .sem-project-card{border-radius:var(--sem-radius-md)!important;box-shadow:var(--sem-shadow-soft)!important;border-left:2px solid var(--sem-line)!important;transition:border-color .25s ease,transform .25s ease,box-shadow .25s ease!important}
       .sem-project-card:hover,.sem-project-card:focus-visible{border-left-color:var(--sem-gold)!important;transform:translateX(4px);box-shadow:var(--sem-shadow-medium)!important}
-      .sem-projects-section{padding-top:160px!important;padding-bottom:160px!important;background:var(--sem-white)!important}
+      .sem-projects-section{padding-top:160px!important;padding-bottom:160px!important;background:transparent!important}
+      section#inicio .max-w-\\[1200px\\],section#sobre .max-w-\\[1200px\\],section#projetos .sem-projects-wrap,section#obras .max-w-\\[1200px\\],section#galeria .max-w-\\[1200px\\]{position:relative;z-index:1}
       button,.sem-project-tab,.sem-project-search{border-radius:var(--sem-radius-sm)!important}
       @media(max-width:767px){.max-w-\\[1200px\\],.max-w-\\[1120px\\],.sem-projects-wrap{padding-left:20px!important;padding-right:20px!important}section#sobre,section#resultados{padding-top:96px!important;padding-bottom:96px!important}section#obras,section#galeria,section#projetos{padding-top:80px!important;padding-bottom:80px!important}section#sobre .max-w-\\[1200px\\],section#resultados .max-w-\\[1200px\\]{padding-left:20px!important;padding-right:20px!important}}
       /* Reference layout: Sobre */
-      section#sobre{background:#f8fafc!important}
+      section#inicio,section#sobre,section#projetos,section#obras,section#galeria{position:relative;isolation:isolate;background-color:#fbfcfd!important;background-image:radial-gradient(circle at 8% 12%,rgba(194,168,120,.10),transparent 24%),radial-gradient(circle at 92% 84%,rgba(15,36,62,.045),transparent 30%),linear-gradient(135deg,#fbfcfd 0%,#f8fafc 52%,#fdfcf9 100%)!important}
+      section#inicio:before,section#sobre:before,section#projetos:before,section#obras:before,section#galeria:before{content:"";position:absolute;inset:0;z-index:-1;pointer-events:none;opacity:.34;background-image:linear-gradient(115deg,transparent 0%,rgba(194,168,120,.10) 48%,transparent 49%);background-size:720px 720px}
+      section#inicio:after,section#sobre:after,section#projetos:after,section#obras:after,section#galeria:after{content:"";position:absolute;top:0;right:6%;width:1px;height:100%;background:linear-gradient(180deg,transparent,rgba(194,168,120,.25) 32%,rgba(194,168,120,.08) 72%,transparent);z-index:-1;pointer-events:none}
+      section#sobre{background:radial-gradient(circle at 10% 18%,rgba(194,168,120,.09),transparent 25%),linear-gradient(135deg,#f8fafc 0%,#f6f8fb 58%,#fcfbf7 100%)!important}
       section#sobre .max-w-\\[1200px\\]{max-width:1280px!important;padding-left:8px!important;padding-right:8px!important}
       section#sobre .mt-12.md\\:mt-16{display:grid!important;grid-template-columns:1fr 1.12fr!important;gap:88px!important;align-items:start!important}
       section#sobre .mt-12.md\\:mt-16>div:has(img){position:relative!important;grid-column:1!important;grid-row:1!important}

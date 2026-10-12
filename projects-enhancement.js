@@ -244,11 +244,13 @@
       :root{--sem-ink:#0F243E;--sem-gold:#C2A878;--sem-white:#FFFFFF;--sem-soft:#F8FAFC;--sem-line:#E2E8F0;--sem-radius-lg:16px;--sem-radius-md:12px;--sem-radius-sm:8px;--sem-shadow-soft:0 8px 28px rgba(15,36,62,.06);--sem-shadow-medium:0 16px 44px rgba(15,36,62,.10)}
       .max-w-\\[1200px\\],.max-w-\\[1120px\\],.sem-projects-wrap{width:100%;max-width:1280px!important;margin-left:auto!important;margin-right:auto!important;padding-left:32px!important;padding-right:32px!important}
       .sem-executive-section,section#inicio,section#sobre,section#resultados,section#obras,section#galeria,section#projetos{scroll-margin-top:80px}
-      section#sobre,section#resultados,section#obras,section#galeria,section#projetos{padding-top:160px!important;padding-bottom:160px!important}
-      section#sobre .relative.fade-stagger{border-left:1px solid var(--sem-line);padding-left:32px}
-      section#sobre .relative.fade-stagger:before{content:"";position:absolute;left:-4px;top:12px;width:6px;height:6px;border-radius:50%;background:var(--sem-gold)}
-      section#resultados{background-color:var(--sem-ink)!important;background-image:radial-gradient(rgba(255,255,255,.035) 1px,transparent 1px)!important;background-size:5px 5px!important}
-      section#resultados .mt-12.rounded-\\[12px\\]{border-radius:var(--sem-radius-lg)!important;border-top:1px solid rgba(194,168,120,.3)!important;box-shadow:var(--sem-shadow-soft)!important}
+      section#obras,section#galeria,section#projetos{padding-top:160px!important;padding-bottom:160px!important}
+      section#sobre,section#resultados{padding-top:96px!important;padding-bottom:96px!important}
+      section#sobre .max-w-\\[1200px\\],section#resultados .max-w-\\[1200px\\]{max-width:1200px!important;padding-left:24px!important;padding-right:24px!important}
+      section#sobre .relative.fade-stagger{border-left:0;padding-left:0}
+      section#sobre .relative.fade-stagger:before{display:none}
+      section#resultados{background-color:#0F243E!important;background-image:none!important;background-size:auto!important}
+      section#resultados .mt-12.rounded-\\[12px\\]{border-radius:12px!important;border-top:1px solid #2D4A6B!important;box-shadow:0 8px 24px rgba(0,0,0,.2)!important}
       section#obras .mt-10.rounded-\\[12px\\],section#obras article{border-left:2px solid var(--sem-line)!important;border-radius:0!important;transition:border-color .25s ease,transform .25s ease}
       section#obras .mt-10.rounded-\\[12px\\]:hover,section#obras article:hover{border-left-color:var(--sem-gold)!important;transform:translateX(4px)}
       .sem-gallery-tile{border-radius:var(--sem-radius-lg)!important;transition:transform .3s ease,box-shadow .3s ease!important}
@@ -258,7 +260,7 @@
       .sem-project-card:hover,.sem-project-card:focus-visible{border-left-color:var(--sem-gold)!important;transform:translateX(4px);box-shadow:var(--sem-shadow-medium)!important}
       .sem-projects-section{padding-top:160px!important;padding-bottom:160px!important;background:var(--sem-white)!important}
       button,.sem-project-tab,.sem-project-search{border-radius:var(--sem-radius-sm)!important}
-      @media(max-width:767px){.max-w-\\[1200px\\],.max-w-\\[1120px\\],.sem-projects-wrap{padding-left:20px!important;padding-right:20px!important}section#sobre,section#resultados,section#obras,section#galeria,section#projetos{padding-top:80px!important;padding-bottom:80px!important}section#sobre .relative.fade-stagger{padding-left:20px}}
+      @media(max-width:767px){.max-w-\\[1200px\\],.max-w-\\[1120px\\],.sem-projects-wrap{padding-left:20px!important;padding-right:20px!important}section#sobre,section#resultados{padding-top:96px!important;padding-bottom:96px!important}section#obras,section#galeria,section#projetos{padding-top:80px!important;padding-bottom:80px!important}section#sobre .max-w-\\[1200px\\],section#resultados .max-w-\\[1200px\\]{padding-left:20px!important;padding-right:20px!important}}
     `;
     document.head.append(style);
     return true;
